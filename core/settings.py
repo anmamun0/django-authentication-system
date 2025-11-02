@@ -148,7 +148,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# Static files (CSS, JS, Images)
+STATIC_URL = '/static/' 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),  # project-level static folder
+]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # for collectstatic in production
+
+# Media files (user-uploaded files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -189,3 +198,5 @@ CACHES = {
         }
     }
 } 
+# pip install redis:  is the Python client for Redis. It allows Python to connect to a Redis server.
+# pip install django-redis : Django-specific cache backend wrapper. It integrates Redis with Django’s cache system.
