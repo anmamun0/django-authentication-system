@@ -45,6 +45,7 @@ INSTALLED_LIBRARIES = [
 
 INSTALLED_APPS = (
     [
+        'jazzmin',
         'corsheaders',
         'django.contrib.admin',
         'django.contrib.auth',
