@@ -7,7 +7,8 @@ from .serializers import ( EmailOTPCreateSerializer, EmailOTPVerifySerializer,
                           ForgotPasswordOTPRequestSerializer,ForgotPasswordOTPVerifySerializer,ResetPasswordSerializer )
 from .models import EmailOTP
 from apps.verification.services.email_otp import OTPHandler
-from apps.users.models import User
+from apps.users.models import User 
+
 # Create your views here.
  
 otp_handler = OTPHandler(EmailOTP) 
@@ -25,7 +26,8 @@ class SendOTPView(APIView):
         except User.DoesNotExist:
             return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        otp_handler.send_otp(user)
+        otp_handler.send_otp(user=user,celery=False)
+      
         return Response({"detail": "OTP sent successfully"}, status=status.HTTP_200_OK)
 
 

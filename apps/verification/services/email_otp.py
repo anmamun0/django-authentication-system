@@ -22,34 +22,25 @@ class OTPHandler:
     def generate_otp(self):
         return str(random.randint(10**(self.otp_length-1), 10**self.otp_length - 1))
 
-    def send_otp(self, user, subject="Your OTP Code", template_name="otp_email.html", from_email="no-reply@example.com"):
-        
+    def create_otp(self,user):
         otp = self.generate_otp()
-        self.model.objects.create(**{self.user_field: user,self.otp_field: otp,'is_verified': False})
-   
-        message = render_to_string(template_name, {"user": user, "otp": otp})
-        email = EmailMessage(
-            subject=subject,
-            body=message,
-            from_email=from_email,
-            to=[user.email],
-        )
+        self.model.objects.create(**{self.user_field:user,self.otp_field:otp})
+        return True, otp
+
+    def send_otp(self,user, celery=False):
+        created , otp = self.create_otp(user)
+
+        # send message with use celery
+        if celery:
+            send_email_task.delay(user_id=user.id,otp=otp)
+            return True
+
+        # send message without use celery
+        message = render_to_string('otp_email.html', {"user": user, "otp": otp})
+        email = EmailMessage(subject="Your OTP Code",body=message,to=[user.email])
         email.content_subtype = "html"  
         email.send(fail_silently=False)
-    
-    def send_otp_use_celery(self, user, subject="Your OTP Code", template_name="otp_email.html", from_email="no-reply@example.com"):
-
-        otp = self.generate_otp()
-        self.model.objects.create(**{self.user_field: user,self.otp_field: otp,'is_verified': False})
-
-         # Use Celery to send email 
-        send_email_task.delay(
-            subject=subject,
-            template_name=template_name,
-            context={"user": user, "otp": otp},
-            from_email=from_email,
-            to_email=user.email
-        )
+        return True
  
     def verify_otp(self, user, otp):
         try:

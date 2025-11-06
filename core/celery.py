@@ -4,7 +4,10 @@ from celery import Celery
 # Set default Django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
-app = Celery("core", broker="redis://127.0.0.1:6379/0", backend="redis://127.0.0.1:6379/0")
+app = Celery("core",
+    broker=os.getenv("CELERY_BROKER_URL", "redis://redis:6379/0"),
+    backend=os.getenv("CELERY_RESULT_BACKEND", "redis://redis:6379/1"),
+)
 
 # Use Django settings with 'CELERY_' namespace
 app.config_from_object('django.conf:settings', namespace='CELERY')

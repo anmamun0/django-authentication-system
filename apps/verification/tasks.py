@@ -1,15 +1,24 @@
+import logging
 from celery import shared_task
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from apps.users.models import User
+logger = logging.getLogger(__name__)
 
 @shared_task
-def send_email_task(subject, template_name, context, from_email, to_email):
-    message = render_to_string(template_name, context)
+def send_email_task(user_id,otp):
+    user = User.objects.get(id=user_id)
+    context = {"user":user,"otp":otp}
+    message = render_to_string('otp_email.html', context)
+
     email = EmailMessage(
-        subject=subject,
+        subject="Your OTP Code",
         body=message,
-        from_email=from_email,
-        to=[to_email],
+        to=[user.email],
+        from_email="no-reply@example.com",
     )
     email.content_subtype = "html"
     email.send(fail_silently=False)
+
+    logger.info("Email send successfull")
+

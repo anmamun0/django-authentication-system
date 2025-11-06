@@ -16,7 +16,7 @@ Content-Type: application/json
 }
  
 ###
-POST http://127.0.0.1:8000/auth/users/register/
+POST http://127.0.0.1:8020/auth/users/register/
 Content-Type: application/json 
 
 {
@@ -27,8 +27,8 @@ Content-Type: application/json
 }
 
 ###
-GET http://127.0.0.1:8000/auth/users/me/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYyNzY1ODMxLCJpYXQiOjE3NjIxNjEwMzEsImp0aSI6ImFjY2RlOTU2NDg4ZjQ3N2M4Yzc5NjIwZDkwN2E1YjM4IiwidXNlcm5hbWUiOiJhZG1pbiJ9.kCOGJWmBQF_stf2fYIqiOwvn_zE3Ml8-n4CPTZwZBKk
+GET http://127.0.0.1:8020/auth/users/me/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzMDQ1NTYwLCJpYXQiOjE3NjI0NDA3NjAsImp0aSI6IjE4OWM4MDIzYmQxNzQyNDg4Nzg3ZWQ4NmQ2YTNjOGM5IiwidXNlcm5hbWUiOiJhZG1pbjEwIiwiaWQiOiIyMzhiMGZlYi02YTBhLTQ0M2YtOGJkNS0wMWM0NTljYzlkNmEiLCJlbWFpbCI6ImFubWFtdW4wQGdtYWlsLmNvbSIsImlzX3Bob25lX3ZlcmlmeSI6ZmFsc2UsImlzX2VtYWlsX3ZlcmlmeSI6ZmFsc2V9.zGcOCc7lusPltLJNpBxPTaWXyuMSjUhR9oM7ywrxYkE
 Content-Type: application/json 
 
 {  
@@ -48,8 +48,8 @@ Content-Type: application/json
 
 
 ###
-POST http://127.0.0.1:8000/auth/me/email/request-verify/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYyNzc5MzQyLCJpYXQiOjE3NjIxNzQ1NDIsImp0aSI6IjM3Mzc2M2FkNDlkYjRkNTE5MGU2OTIxNGU0OTY0MjdlIiwidXNlcm5hbWUiOiJhZG1pbjEwIiwiaWQiOjE1LCJlbWFpbCI6ImFubWFtdW4wQGdtYWlsLmNvbSIsImlzX3Bob25lX3ZlcmlmeSI6ZmFsc2UsImlzX2VtYWlsX3ZlcmlmeSI6ZmFsc2V9.z0cD8SCd1htD-gOanduyHFXqleOyj5P03X7VOeTljxY
+POST http://127.0.0.1:8020/auth/me/email/request-verify/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzMDQ1NTYwLCJpYXQiOjE3NjI0NDA3NjAsImp0aSI6IjE4OWM4MDIzYmQxNzQyNDg4Nzg3ZWQ4NmQ2YTNjOGM5IiwidXNlcm5hbWUiOiJhZG1pbjEwIiwiaWQiOiIyMzhiMGZlYi02YTBhLTQ0M2YtOGJkNS0wMWM0NTljYzlkNmEiLCJlbWFpbCI6ImFubWFtdW4wQGdtYWlsLmNvbSIsImlzX3Bob25lX3ZlcmlmeSI6ZmFsc2UsImlzX2VtYWlsX3ZlcmlmeSI6ZmFsc2V9.zGcOCc7lusPltLJNpBxPTaWXyuMSjUhR9oM7ywrxYkE
 Content-Type: application/json 
 
 {  
