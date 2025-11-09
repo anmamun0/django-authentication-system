@@ -20,6 +20,10 @@ class BaseModel(models.Model):
 class Category(BaseModel):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='categories',null=True)
     name = models.CharField(max_length=25,help_text='write category name here.')
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user','name'],name='unique_category_per_user')
+        ]
 
     @property
     def inventory_count(self):
