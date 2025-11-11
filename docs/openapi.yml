@@ -1,19 +1,36 @@
-openapi: 3.0.4
+# https://editor.swagger.io/
 
+openapi: 3.0.4
 info:
-  title: TrueLearner API
-  version: 1.0.0
-  description: Online learning platform API
+  title: Inventory APPs - Expanded Version
+  version: 1.0.12
+  description: >
+    Fully expanded OpenAPI specification for the Petstore API.  
+    This version includes `components.schemas` but does not use `$ref:` anywhere.
 
 servers:
-  - url: http://localhost:8000/api
+  - url: https://github.com/anmamun0/django-authentication-system/
+
+tags:
+  - name: Authentication
+    description: Endpoints related to user authentication and token management.
+  - name: Forgot_Password
+    description: Endpoints for handling user password reset via OTP verification.
+  - name: User_Profile
+    description: Endpoints for retrieving and managing authenticated user profiles.
+  - name: Category
+    description: Endpoints for managing product categories.
+  - name: Inventory
+    description: Endpoints for managing inventory and stock records.
 
 
-# Paths (API Endpoints)
 paths:
-  /auth/login/:
+  # ------------------Auth-------------------
+  /auth/users/register/:
     post:
-      summary: Login user
+      tags: [Authentication]
+      summary: Registrations
+      description: Get data 
       requestBody:
         required: true
         content:
@@ -21,25 +38,714 @@ paths:
             schema:
               type: object
               properties:
-                email:
-                  type: string
-                password:
-                  type: string
+                username: {type: string,example: anmamun0}
+                email: {type: string,example: example@gmail.com}
+                first_name: {type: string,example: AN Mamun }
+                password: {type: password,example: Password123!}
       responses:
-        "200":
-          description: Login successful
-        "400":
-          description: Invalid credentials
+        '200':
+          description: Successful Created User Data
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  access: {type: string,example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzNDU4NjAxLCJpYXQiOjE3NjI4NTM4MDEsImp0aSI6IjYzMDkzZmE4NDQ5OTQ5N2JhMmZjZmFjN2E3ZjU2YTdjIiwidXNlcm5hbWUiOiJhZG1pbjIifQ.4IOwx_VK6RkoNG-njQAy_40ePeKc46-hzFiQw8tU2Vg}
+                  otp: {type: string , example: Updated. OTP has been sent to your email for verification.}  
+  /auth/users/login/:
+    post:
+        tags: [Authentication]
+        summary: Login
+        description: Post Data login
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username: {type: string,example: anmamun0} 
+                  password: {type: password,example: Password123!}
+        responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    refresh: {type: string,example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzNDU4NjAxLCJpYXQiOjE3NjI4NTM4MDEsImp0aSI6IjYzMDkzZmE4NDQ5OTQ5N2JhMmZjZmFjN2E3ZjU2YTdjIiwidXNlcm5hbWUiOiJhZG1pbjIifQ.4IOwx_VK6RkoNG-njQAy_40ePeKc46-hzFiQw8tU2Vg}
+                    access: {type: string,example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzNDU4NjAxLCJpYXQiOjE3NjI4NTM4MDEsImp0aSI6IjYzMDkzZmE4NDQ5OTQ5N2JhMmZjZmFjN2E3ZjU2YTdjIiwidXNlcm5hbWUiOiJhZG1pbjIifQ.4IOwx_VK6RkoNG-njQAy_40ePeKc46-hzFiQw8tU2Vg}
+  /auth/users/login/refresh/:
+    post:
+        tags: [Authentication]
+        summary: Refresh access token
+        description:  Generates a new access token using a valid refresh token.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  refresh: {type: string,example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzNDU4NjAxLCJpYXQiOjE3NjI4NTM4MDEsImp0aSI6IjYzMDkzZmE4NDQ5OTQ5N2JhMmZjZmFjN2E3ZjU2YTdjIiwidXNlcm5hbWUiOiJhZG1pbjIifQ.4IOwx_VK6RkoNG-njQAy_40ePeKc46-hzFiQw8tU2Vg}
+        responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    access: {type: string,example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzNDU4NjAxLCJpYXQiOjE3NjI4NTM4MDEsImp0aSI6IjYzMDkzZmE4NDQ5OTQ5N2JhMmZjZmFjN2E3ZjU2YTdjIiwidXNlcm5hbWUiOiJhZG1pbjIifQ.4IOwx_VK6RkoNG-njQAy_40ePeKc46-hzFiQw8tU2Vg}
+  /auth/me/email/conform-verify/:
+    post:
+      tags: [Authentication]
+      summary: Verify email confirmation
+      description: Confirms and verifies the user's email address.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+            example: "Bearer <token>"
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    email: {type: string, example: example@gmail.com}
+                    otp: {type: string, example: 123456}
+      responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    detail: {type: string, example: OTP verified successfully}
+  /auth/users/me/change-password/:
+    post:
+      tags: [Authentication]
+      summary: Change user password
+      description: Allows the authenticated user to change their current password.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+            example: "Bearer <token>"
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    old_password: {type: string, example: OldPassword!123}
+                    new_password: {type: string, example: NewPassword!123}
+      responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    detail: {type: string, example: Password changed successfully}
+                    
 
-# Components (Schema / Model definitions)
+# Forgot-Password ------------
+  /auth/user/forgot-password/send-otp/:
+    post:
+      tags: [Forgot_Password]
+      summary: Send OTP for password reset
+      description: Sends a one-time password (OTP) to the users registered email for password reset.
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    email: {type: string, example: example@gmail.com} 
+      responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    detail: {type: string, example: OTP sent to email}
+            
+  /auth/user/forgot-password/verify-otp/:
+    post:
+      tags: [Forgot_Password]
+      summary: Verify password reset OTP
+      description: Verifies the OTP sent to the user's email before allowing password reset.
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    email: {type: string, example: example@gmail.com} 
+                    otp: {type: string, example: 123456}
+      responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    detail: {type: string, example: OTP verified successfully}
+            
+  /auth/user/forgot-password/reset/:
+    post:
+      tags: [Forgot_Password]
+      summary: Reset user password
+      description: Resets the users password after successful OTP verification.
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    email: {type: string, example: example@gmail.com} 
+                    otp: {type: string, example: 123456}
+                    new_password: {type: string, example: NewPassword!123}
+      responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    detail: {type: string, example: Password reset successful}
+            
+
+# User_Profile ------------
+  
+  /auth/users/me/:
+    get:
+      tags: [User_Profile]
+      summary: Retrieve user profile
+      description: Fetches the authenticated user's profile information.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+            example: "Bearer <token>" 
+      responses:
+          '200':
+            description: HTTP 200 OK 
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties:
+                    username: {type: string, example: example@gmail.com} 
+                    first_name: {type: string, example: Jaki}
+                    last_name: {type: string, example: Billah}
+                    email: {type: string, example: 123456}
+                    phone_number: {type: string, example: +8801700 000000}
+                    photo: {type: file, example: file}           
+    put:
+      tags: [User_Profile]
+      summary: Update user profile
+      description: Updates the authenticated user's full profile details.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+            example: "Bearer <token>"
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username: {type: string, example: example@gmail.com} 
+                  first_name: {type: string, example: Jaki}
+                  last_name: {type: string, example: Billah}
+                  email: {type: string, example: 123456}
+                  phone_number: {type: string, example: +8801700 000000}
+                  photo: {type: file, example: file}
+      responses:
+        '200':
+          description: HTTP 200 OK 
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  username: {type: string, example: example@gmail.com} 
+                  first_name: {type: string, example: Jaki}
+                  last_name: {type: string, example: Billah}
+                  email: {type: string, example: 123456}
+                  phone_number: {type: string, example: +8801700 000000}
+                  photo: {type: file, example: file}
+    patch:
+      tags: [User_Profile]
+      summary: Partially update user profile
+      description: Updates specific fields of the authenticated user's profile.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+            example: "Bearer <token>"
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username: {type: string, example: example@gmail.com} 
+                  first_name: {type: string, example: Jaki}
+                  last_name: {type: string, example: Billah}
+                  email: {type: string, example: 123456}
+                  phone_number: {type: string, example: +8801700 000000}
+                  photo: {type: file, example: file}
+      responses:
+        '200':
+          description: HTTP 200 OK 
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  username: {type: string, example: example@gmail.com} 
+                  first_name: {type: string, example: Jaki}
+                  last_name: {type: string, example: Billah}
+                  email: {type: string, example: 123456}
+                  phone_number: {type: string, example: +8801700 000000}
+                  photo: {type: file, example: file}  
+    delete:
+      tags: [User_Profile]
+      summary: Delete user profile
+      description: Deletes the authenticated user's profile permanently.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+            example: "Bearer <token>"  
+      responses:
+        '204':
+          description: HTTP 204 NO_CONTENT
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:
+                  detail:: {type: string, example: No content available}  
+ 
+
+  # ---------------- Category ---------------
+  /category:
+    get:
+      tags: [Category]
+      summary: Get all categories
+      description: Retrieve a list of categories
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+            example: "Bearer <token>"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 10
+                    user:
+                      type: string
+                      format: uuid
+                      example: 661c05cc-4041-4248-8cbf-fd00c18473f7
+                    name:
+                      type: string
+                      example: "Electronic"
+                    created_at:
+                      type: string
+                      example: "2025-11-09T12:00:00Z"
+        '500':
+          description: Server error
+
+    post:
+      tags: [Category]
+      summary: Add a new category
+      operationId: addCategory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Electronic"
+      responses:
+        '201':
+          description: Category created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 10
+                  user:
+                    type: string
+                    format: uuid
+                    example: 661c05cc-4041-4248-8cbf-fd00c18473f7
+                  name:
+                    type: string
+                    example: "Electronic"
+                  created_at:
+                    type: string
+                    example: "2025-11-09T12:00:00Z"
+        '400':
+          description: Invalid input
+
+  /category/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Category ID
+        schema:
+          type: integer
+          example: 1
+    put:
+      tags: [Category]
+      summary: Update an existing category
+      operationId: updateCategory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Updated Electronic"
+      responses:
+        '200':
+          description: Category updated
+        '404':
+          description: Category not found
+
+    patch:
+      tags: [Category]
+      summary: Partially update a category
+      operationId: partialUpdateCategory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Partially Updated Electronic"
+      responses:
+        '200':
+          description: Category partially updated
+        '404':
+          description: Category not found
+
+    delete:
+      tags: [Category]
+      summary: Delete a category
+      operationId: deleteCategory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Category deleted
+        '404':
+          description: Category not found
+
+# ---------------- Inventory ----------------
+  /inventory:
+    get:
+      tags: [Inventory]
+      summary: Retrieve inventory items
+      operationId: getInventory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with inventory item list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "Laptop"
+                    category:
+                      type: string
+                      example: "Electronic"
+                    priority:
+                      type: string
+                      enum: [High, Medium, Low]
+                      example: High
+                    number:
+                      type: integer
+                      example: 10
+        '401':
+          description: Unauthorized – Invalid or missing token
+        '500':
+          description: Internal server error
+
+
+    post:
+      tags: [Inventory]
+      summary: Create inventory item
+      operationId: addInventory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Laptop"
+                category:
+                  type: string
+                  example: "Electronic"
+                priority:
+                  type: string
+                  enum: [High, Medium, Low]
+                  example: High
+                number:
+                  type: integer
+                  example: 10
+      responses:
+        '201':
+          description: Inventory item created
+        '400':
+          description: Invalid input
+
+  /inventory/{id}: 
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Inventory ID
+        schema:
+          type: integer
+          example: 1
+    put:
+      tags: [Inventory]
+      summary: Fully update an inventory item
+      operationId: updateInventory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Laptop Updated"
+                category:
+                  type: string
+                  example: "Electronic"
+                priority:
+                  type: string
+                  enum: [High, Medium, Low]
+                  example: Medium
+                number:
+                  type: integer
+                  example: 15
+      responses:
+        '200':
+          description: Inventory item updated
+        '404':
+          description: Inventory item not found
+
+    patch:
+      tags: [Inventory]
+      summary: Partially update an inventory item
+      operationId: partialUpdateInventory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priority:
+                  type: string
+                  enum: [High, Medium, Low]
+                  example: Low
+      responses:
+        '200':
+          description: Inventory item partially updated
+        '404':
+          description: Inventory item not found
+
+    delete:
+      tags: [Inventory]
+      summary: Delete an inventory item
+      operationId: deleteInventory
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Inventory item deleted
+        '404':
+          description: Inventory item not found
+
 components:
   schemas:
     User:
       type: object
       properties:
+        id: {type: string, example: <token>}  
+        username: {type: string, example: example@gmail.com} 
+        first_name: {type: string, example: Jaki}
+        last_name: {type: string, example: Billah}
+        email: {type: string, example: 123456}
+        phone_number: {type: string, example: +8801700 000000}
+        photo: {type: file, example: file}   
+
+    Category:
+      type: object
+      properties:
         id:
-          type: integer
+          type: string
+          example: <token>
+        user:
+          type: string
+          format: uuid
+          example: 661c05cc-4041-4248-8cbf-fd00c18473f7
         name:
           type: string
-        email:
+          example: "Electronic"
+        created_at:
           type: string
+          example: "2025-11-09T12:00:00Z"
+
+    Inventory:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user:
+          type: string
+          format: uuid
+          example: 661c05cc-4041-4248-8cbf-fd00c18473f7
+        name:
+          type: string
+          example: "Laptop"
+        category:
+          type: string
+          example: "Electronic"
+        priority:
+          type: string
+          enum: [High, Medium, Low]
+          example: High
+        number:
+          type: integer
+          example: 10
+        date:
+          type: string
+          example: "2025-11-09" 
